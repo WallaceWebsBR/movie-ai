@@ -24,17 +24,17 @@ Microserviço Spring Boot que utiliza IA (OpenAI) para buscar filmes baseado em 
 
 ### 1. Variáveis de Ambiente
 
-Defina a chave da API OpenAI como variável de ambiente:
+Defina a URL e chave da API OpenAI como variável de ambiente:
 
 ```bash
+export OPENAI_BASE_URL=sua-url-customizada
 export OPENAI_API_KEY=sua-chave-da-api-aqui
 ```
 
 ### 2. Configuração Customizada
 
 O microserviço está configurado para usar o endpoint customizado da OpenAI:
-- **Base URL**: `https://api.wallacewebs.com/v1`
-- **Modelo**: `gpt-3.5-turbo`
+- **Modelo**: `gpt-4.1`
 - **Temperature**: `0.7`
 
 ## 🚀 Como Executar
@@ -133,8 +133,6 @@ src/
 │   │   ├── dto/
 │   │   │   ├── ActorRequest.java             # DTO de request
 │   │   │   └── MovieResponse.java            # DTO de response
-│   │   ├── exception/
-│   │   │   └── GlobalExceptionHandler.java   # Tratamento global de erros
 │   │   └── service/
 │   │       └── MovieService.java             # Lógica de negócio
 │   └── resources/
@@ -153,9 +151,9 @@ src/
 ### application.properties
 ```properties
 # API OpenAI customizada
-spring.ai.openai.base-url=https://api.wallacewebs.com/v1
+spring.ai.openai.base-url=${OPENAI_BASE_URL:your-custom-url-here}
 spring.ai.openai.api-key=${OPENAI_API_KEY:your-api-key-here}
-spring.ai.openai.chat.options.model=gpt-3.5-turbo
+spring.ai.openai.chat.options.model=gpt-4.1
 spring.ai.openai.chat.options.temperature=0.7
 
 # Swagger

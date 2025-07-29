@@ -3,6 +3,7 @@ package com.wallacewebs.springai.controller;
 import com.wallacewebs.springai.dto.ActorRequest;
 import com.wallacewebs.springai.dto.ErrorResponse;
 import com.wallacewebs.springai.dto.MovieResponse;
+import com.wallacewebs.springai.dto.ValidationErrorResponse;
 import com.wallacewebs.springai.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,8 +45,8 @@ public class MovieController {
         ),
         @ApiResponse(
             responseCode = "400",
-            description = "Requisição inválida - lista de atores vazia ou nula",
-            content = @Content()
+            description = "Erro de validação - lista de atores vazia ou nula",
+            content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))
         ),
         @ApiResponse(
             responseCode = "500",

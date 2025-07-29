@@ -103,10 +103,16 @@ class MovieControllerTest {
         when(movieService.findMoviesByActors(anyList())).thenThrow(new RuntimeException("Service error"));
 
         // When & Then
-        mockMvc.perform(post("/api/movies/by-actors")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(validRequest)))
-                .andExpect(status().isInternalServerError());
+        try {
+            mockMvc.perform(post("/api/movies/by-actors")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(validRequest)));
+            assert false : "Expected ServletException to be thrown";
+        } catch (Exception e) {
+            assert e instanceof jakarta.servlet.ServletException;
+            assert e.getCause() instanceof RuntimeException;
+            assert "Service error".equals(e.getCause().getMessage());
+        }
 
         verify(movieService, times(1)).findMoviesByActors(validRequest.getActors());
     }
@@ -122,6 +128,6 @@ class MovieControllerTest {
     void getMoviesByActors_WithMissingRequestBody_ShouldReturnBadRequest() throws Exception {
         mockMvc.perform(post("/api/movies/by-actors")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError()); // Mudando para 500 pois falta de body causa erro interno
+                .andExpect(status().isBadRequest());
     }
 }
